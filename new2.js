@@ -5074,84 +5074,72 @@ true of false before it ends.
 //=============================================
 function validateProducts() {
 
-	var errortext = "";
-	var errorrow = $('errorrow');
-	var valid = true;
+  var errortext = "";
+  var errorrow = $('errorrow');
+  var valid = true;
 
-	//check the first row
-	var prod = document.getElementById("selectedProduct");
-	var qty = document.getElementById("qtyRequested");
-	var usage = document.getElementById("sample_annual_use");
+  //check the first row
+  var prod = document.getElementById("selectedProduct");
+  var qty = document.getElementById("qtyRequested");
+  var usage = document.getElementById("sample_annual_use");
 
-	if (prod.selectedIndex == 0) {
-		errortext = "<div style='opacity:0.9999' class='validation-advice'>Product is required</div>";
+  if (prod.selectedIndex == 0) {
+      errortext = "<div style='opacity:0.9999' class='validation-advice'>Product is required</div>";
+  }
+  if (qty.value == "") {
+      errortext += "<div style='opacity:0.9999'  class='validation-advice'>Quantity is required</div>";
+  } else if (!isWhole(qty.value)) {
+      errortext += "<div style='opacity:0.9999'  class='validation-advice'>Quantity must be a number</div>";
+  } else if (qty.value < 1){
+      errortext += "<div style='opacity:0.9999'  class='validation-advice'>Quantity must be greater than zero</div>";
+  }
 
-	}
-	if (qty.value == "") {
-		errortext += "<div style='opacity:0.9999'  class='validation-advice'>Quantity is requred</div>"
-	} else if (!isWhole(qty.value)) {
-		errortext += "<div style='opacity:0.9999'  class='validation-advice'>Quantity must be a number</div>"
-	} else if (qty.value < 1){
-		errortext += "<div style='opacity:0.9999'  class='validation-advice'>Quantity must be greater than zero</div>"
-	} else {}
+  // IE does not implement the DOM spec correctly
+  if (errorrow.childNodes[0].nodeType == '1') {
+      // for IE 7 and below
+      cell1 = 0;
+  } else {
+      // FF, Safari, etc.
+      cell1 = 1;
+  }
 
-	// IE does not implement the DOM spec correctly
-	if (errorrow.childNodes[0].nodeType == '1') {
-		// for IE 7 and below
-		cell1 = 0;
+  errorrow.childNodes[cell1].innerHTML = errortext;
 
-	} else {
-		// FF, Safari, etc.
-		cell1 = 1;
-	}
+  if (errortext != "") {
+      valid = false;
+  }
 
-	errorrow.childNodes[cell1].innerHTML = errortext;
-
-	if (errortext != "") {
-
-		valid = false;
-		//b.disabled = false
-		//b.value = "Submit"
-	}
-
-	// Loop through all of the other product rows
-
-	for (x=2;x<=rowcount;x++) {
-		errortext = ""
-		errorrow = document.getElementById("errorrow"+x)
-		prod = document.getElementById("selectedProduct"+x);
-		qty = document.getElementById("qtyRequested"+x);
-		usage = document.getElementById("sample_annual_use"+x);
-    if (prod) {
-      if ( prod.selectedIndex ) {
-    		if ((prod.selectedIndex == 0) && (qty.value == "") && (usage.selectedIndex == 0)) { 
-    		} else {
-          if (prod.selectedIndex == 0) {
-            errortext = "<div style='opacity:0.9999'  class='validation-advice'>Product is required</div>";
+  // Loop through all of the other product rows
+  for (x=2;x<=rowcount;x++) {
+      errortext = "";
+      errorrow = document.getElementById("errorrow"+x);
+      prod = document.getElementById("selectedProduct"+x);
+      qty = document.getElementById("qtyRequested"+x);
+      usage = document.getElementById("sample_annual_use"+x);
+      if (prod) {
+          if (prod.selectedIndex) {
+              if ((prod.selectedIndex == 0) && (qty.value == "") && (usage.selectedIndex == 0)) { 
+                  // No action taken if all conditions are met
+              } else {
+                  if (prod.selectedIndex == 0) {
+                      errortext = "<div style='opacity:0.9999'  class='validation-advice'>Product is required</div>";
+                  }
+              }
+              if (qty.value == "") {
+                  errortext += "<div style='opacity:0.9999'  class='validation-advice'>Quantity is required</div>";
+              } else if (!isWhole(qty.value)) {
+                  errortext += "<div style='opacity:0.9999'  class='validation-advice'>Quantity must be a number</div>";
+              } else if (qty.value < 1){
+                  errortext += "<div style='opacity:0.9999'  class='validation-advice'>Quantity must be greater than zero</div>";
+              }
           }
-        }
-			if (qty.value == "") {
-				errortext += "<div style='opacity:0.9999'  class='validation-advice'>Quantity is required</div>"
-			} else if (!isWhole(qty.value)) {
-				errortext += "<div style='opacity:0.9999'  class='validation-advice'>Quantity must be a number</div>"
-			} else if (qty.value < 1){
-				errortext += "<div style='opacity:0.9999'  class='validation-advice'>Quantity must be greater than zero</div>"
-			} else {}
-    } else {}
-
-			errorrow.childNodes[cell1].innerHTML = errortext;
-			if (errortext != "") {
-
-				valid = false;
-				//b.disabled = false
-				//b.value = "Submit"
+          errorrow.childNodes[cell1].innerHTML = errortext;
+          if (errortext != "") {
+              valid = false;
+          }
       }
-      }
-		}
-	}
-
-	return valid;
-
+  }
+  return valid;
 }
 // Check if string is a whole number(digits only).
 var isWholeRegEx = /^\s*\d+\s*$/;
