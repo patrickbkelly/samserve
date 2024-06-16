@@ -265,6 +265,7 @@ class SampleRequest(BaseModel):
     selectedProduct7: Optional[str] = 'no data'
     selectedProduct8: Optional[str] = 'no data'
     selectedProduct9: Optional[str] = 'no data'
+    selectedProduct10: Optional[str] = 'no data'
     qtyRequested: Optional[str] = 'no data'
     qtyRequested2: Optional[str] = 'no data'
     qtyRequested3: Optional[str] = 'no data'
@@ -274,6 +275,7 @@ class SampleRequest(BaseModel):
     qtyRequested7: Optional[str] = 'no data'
     qtyRequested8: Optional[str] = 'no data'
     qtyRequested9: Optional[str] = 'no data'
+    qtyRequested10: Optional[str] = 'no data'
     comments: Optional[str] = 'no data'
     terms_agree: Optional[str] = 'no data'
     maincontact: Optional[str] = 'no data'
@@ -320,7 +322,7 @@ async def submitRequest(sampleRequest: SampleRequest, request: Request):
     reqtime = datetime.datetime.now()
     request_json = sampleRequest.json()
     request_dict = sampleRequest.dict()
-    request_string = 'Sample Request('+reqid+') received at '+ reqtime.isoformat() + request_json + '\n' 
+    request_string = 'Sample Request 3('+reqid+') received at '+ reqtime.isoformat() + request_json + '\n' 
     logger.info('POST request: {}'.format(request_string))
     logger.info('Client IP: {}'.format(request.client.host))
 
@@ -366,7 +368,7 @@ async def submitRequest(sampleRequest: SampleRequest, request: Request):
         if result['success']:
             i = 0 
             requestGuid = result['id']
-            while i < 9:
+            while i < 10:
                 i = i+1
                 if (i > 1):
                     suffix = str(i)

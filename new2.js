@@ -4865,6 +4865,7 @@ function validateANDsubmit(b, f, u) {
 	if(Validator.validate()) {
 		doCookies('save', f);
 		frm = jQuery('form[name="' + f + '"]');
+    console.log( frm )
 		frm.submit();
 		location.href="/thankyou";
 	} else {
